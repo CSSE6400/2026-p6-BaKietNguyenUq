@@ -57,6 +57,13 @@ resource "aws_ecs_service" "taskoverflow" {
     assign_public_ip    = true
   }
 
+  load_balancer {
+    target_group_arn = aws_lb_target_group.taskoverflow.arn
+    container_name   = "taskoverflow"
+    container_port   = 6400
+  }
+
+  depends_on = [aws_lb_listener.taskoverflow]
 }
 
 resource "aws_security_group" "taskoverflow" {
